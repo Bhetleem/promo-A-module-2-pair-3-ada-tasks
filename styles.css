@@ -1,1 +1,32 @@
+header{
+    background-color: darkcyan;
+    color: white;
+    text-align: center;
+    height: 50px;
+    margin-bottom: 2rem;
+}
+body{
+    background-color: lightgray;
+}
 
+button{
+    background-color: cadetblue;
+    color: white;
+    margin-top: 1rem;
+}
+
+.container{
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 2rem;
+}
+
+.container_main{
+    background-color: white;
+    padding: 1rem;
+}
+
+.container_aside{
+    background-color: white;
+    padding: 1rem;
+}
