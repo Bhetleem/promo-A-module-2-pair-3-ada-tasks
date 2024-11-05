@@ -44,9 +44,7 @@ const handleNewTask = (event) => {
   // 4. Vuelve a pintar las tareas
   list.innerHTML = ""; //borra las tareas ya pintadas
 
-  for(const task of tasks){
-    list.innerHTML +=  `<li><input type="checkbox" id="${task.id}">${task.name}</li>`
-  }
+  renderTasks();
 };
 
 buttonAdd.addEventListener("click", handleNewTask);
@@ -55,11 +53,29 @@ buttonAdd.addEventListener("click", handleNewTask);
     - Si la lista de tareas está almacenada => la pintamos desde el localStorage
     - Si no, le hacemos la peticion al servidor */
 
-const tasksLocalStorage = JSON.parse(localStorage.getItem("tasksStorage"));
+const tasksLocalStorage = JSON.parse(localStorage.getItem("tasksFromServer"));
+// parse: pasa el string a un array o un objeto //
+
+function renderTasks(){
+  for(const task of tasks){
+    // list.innerHTML +=  `<li><input type="checkbox" id="${task.id}">${task.name}</li>`
+    /* crear la <li> con DOM avanzado */
+    const liElement = document.createElement("li");
+    list.appendChild(liElement);
+
+    const inputElement = document.createElement("input");
+    liElement.appendChild(inputElement);
+    inputElement.setAttribute("type", "checkbox");
+    inputElement.setAttribute("id", task.id);
+    inputElement.setAttribute("name", task.name);
+    const contentInputElement = document.createTextNode(task.name);
+    inputElement.appendChild(contentInputElement);
+    }
+}
 
 if (tasksLocalStorage !== null){
   tasks = tasksLocalStorage;
-
+  renderTasks()
 
 }else{
 fetch(SERVER_URL)
@@ -68,12 +84,11 @@ fetch(SERVER_URL)
 })
 .then ((data) => {
   tasks = data.results;
+  localStorage.setItem("tasksFromServer", JSON.stringify(tasks)); //usamos stringify para pasar las tareas a string, ya que el navegador solo guarda strings //
   // console.log(data);
-  
-  for(const task of tasks){
-
-  list.innerHTML +=  `<li><input type="checkbox" id="${task.id}">${task.name}</li>`
-  }
+  renderTasks()
   });
 }
+
+
 
