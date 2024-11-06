@@ -5,6 +5,7 @@ const list = document.querySelector(".js-list");
 const GITHUB_USER = "Marta-ms";
 const SERVER_URL = `https://dev.adalab.es/api/todo/${GITHUB_USER}`;
 
+
 //Queremos que cuando la usuaria haga click en cualquiera de los checkbox la tarea se tache
 
 /*
@@ -49,6 +50,7 @@ const handleNewTask = (event) => {
 
 buttonAdd.addEventListener("click", handleNewTask);
 
+
 /* Ejercicio: guardar la lista de tareas en el Local Storage
     - Si la lista de tareas está almacenada => la pintamos desde el localStorage
     - Si no, le hacemos la peticion al servidor */
@@ -69,8 +71,9 @@ function renderTasks(){
     inputElement.setAttribute("id", task.id);
     inputElement.setAttribute("name", task.name);
     const contentInputElement = document.createTextNode(task.name);
-    inputElement.appendChild(contentInputElement);
+    liElement.appendChild(contentInputElement);
     }
+
 }
 
 if (tasksLocalStorage !== null){
@@ -85,10 +88,15 @@ fetch(SERVER_URL)
 .then ((data) => {
   tasks = data.results;
   localStorage.setItem("tasksFromServer", JSON.stringify(tasks)); //usamos stringify para pasar las tareas a string, ya que el navegador solo guarda strings //
-  // console.log(data);
+   //console.log(data);
   renderTasks()
   });
 }
 
+//tachar la tarea terminada
+const handleTaskComplete=(event) => {
+  const taskId = parseInt(event.target.id);
+  if (!taskId) return;
+}
 
-
+list.addEventListener("click", handleTaskComplete);
